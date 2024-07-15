@@ -1,7 +1,10 @@
 (ns hello-clojure.core-test
-  (:require [clojure.test :refer :all]
-            [hello-clojure.core :refer :all]))
+  (:require [clojure.test :refer [deftest is testing]]
+            [hello-clojure.core :refer [-main]]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest test-main
+  (testing "No arguments"
+    (is (= (with-out-str (-main)) "Hello, World!\n")))
+
+  (testing "With a name argument"
+    (is (= (with-out-str (-main "Alice")) "Hello, Alice!\n"))))

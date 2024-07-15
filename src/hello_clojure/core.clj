@@ -1,9 +1,12 @@
 (ns hello-clojure.core
   (:gen-class))
 
-(defn -main
-  "Prints a greeting message. Optionally takes a name as an argument."
-  [& args]
+(defn- printHello ^clojure.lang.IFn [args]
   (if (empty? args)
-    (println "Hello, World!")
-    (println (str "Hello, " (first args) "!"))))
+    (fn [] (println "Hello, World!"))
+    (fn [] (println (str "Hello, " (first args) "!")))))
+
+(defn -main
+  [& args]
+  (let [printHandler (printHello args)]
+    (printHandler)))
