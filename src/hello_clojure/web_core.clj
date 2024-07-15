@@ -2,7 +2,7 @@
   (:require [ring.adapter.jetty :refer [run-jetty]]
             [ring.util.response :refer [response]]))
 
-(defn handler [request]
+(defn handler [_]
   (response "Hello, World!"))
 
 (defn -main []
