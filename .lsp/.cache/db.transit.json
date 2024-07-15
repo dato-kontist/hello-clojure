@@ -1,0 +1,23 @@
+[
+  "^ ",
+  "~:classpath",
+  ["~#set", []],
+  "~:project-hash",
+  "",
+  "~:project-root",
+  "/Users/danieltostes/Workspace/hello-clojure",
+  "~:kondo-config-hash",
+  "838bf9b2dd2339413c9e9a27ce7aff5bc69ef264a69eb39bf798e43d62e7a168",
+  "~:dependency-scheme",
+  "jar",
+  "~:analysis",
+  null,
+  "~:analysis-checksums",
+  ["^ "],
+  "~:project-analysis-type",
+  "~:project-and-full-dependencies",
+  "~:version",
+  12,
+  "~:stubs-generation-namespaces",
+  ["^1", []]
+]
