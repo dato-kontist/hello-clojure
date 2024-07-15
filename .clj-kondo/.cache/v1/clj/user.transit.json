@@ -1,1 +1,1 @@
-["^ ","~$-main",["^ ","~:row",5,"~:col",1,"~:varargs-min-arity",0,"~:name","^0","~:ns","~$user","~:top-ns",null,"~:type","~:fn"],"~:filename","/Users/danieltostes/Workspace/hello-clojure/src/hello_clojure/core.clj"]
+["^ ","~$printHello",["^ ","~:fixed-arities",["~#set",[1]],"~:private",true,"~:ns","~$user","~:name","^0","~:type","~:fn","~:col",1,"~:top-ns",null,"~:row",8],"~$-main",["^ ","^;",16,"^9",1,"~:varargs-min-arity",0,"^6","^<","^4","^5","^:",null,"^7","^8"],"~:filename","/Users/danieltostes/Workspace/hello-clojure/src/hello_clojure/core.clj"]
