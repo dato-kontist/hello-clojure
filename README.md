@@ -2,10 +2,6 @@
 
 Learning how to use Clojure.
 
-## Installation
-
-Download from http://example.com/FIXME.
-
 ## Usage
 
 `lein run`
