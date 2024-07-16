@@ -6,8 +6,9 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [ring/ring-core "1.9.0"]
                  [ring/ring-mock "0.4.0"]
+                 [cheshire "5.13.0"]
                  [ring/ring-jetty-adapter "1.9.0"]]
-  :main ^:skip-aot hello-clojure.web-core
+  :main ^:skip-aot main
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
