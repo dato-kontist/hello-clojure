@@ -17,7 +17,8 @@ to run REPL
 ### Might be Useful
 
 Install Java.
-Install Lein
+Install Lein.
+Install clj-kondo. `brew install borkdude/brew/clj-kondo`
 
 ## License
 
