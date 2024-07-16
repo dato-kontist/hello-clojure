@@ -1,8 +1,8 @@
-
 (ns register-user.register-user
   (:require
    [ring.util.response :refer [response]]
-   [cheshire.core :as json]))
+   [cheshire.core :as json]
+   [register-user.use-case :refer [register-user]]))
 
 (defn- parse-user
   "Parses the user data from the request body."
@@ -16,27 +16,13 @@
       user
       (throw (ex-info "Invalid user data" {:status 400 :errors errors})))))
 
-(def in-memory-user-db (atom {}))
-
-(defn- check-user-registered
-  "Checks if the user is already registered in the user-db."
-  [email]
-  (if (contains? @in-memory-user-db email)
-    (throw (ex-info "User already registered" {:status 422}))
-    nil))
-
-(defn- createUser "Adds the user to the in-memory-user-db atom." [user]
-  (swap! in-memory-user-db assoc (:email user) user)
-  user)
-
 (defn registerUserHttpHandler
   "Handles the HTTP request to register a user."
   [request]
   (try
-    (let [user (parse-user (slurp (:body request)))]
-      (check-user-registered (:email user))
-      (createUser user)
-      (-> (response (json/generate-string user))
+    (let [user (parse-user (slurp (:body request)))
+          createdUser (register-user user)]
+      (-> (response (json/generate-string createdUser))
           (assoc :headers {"Content-Type" "application/json"})))
     (catch Exception e
       (let [{:keys [status]} (ex-data e)]
