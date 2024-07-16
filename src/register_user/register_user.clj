@@ -1,8 +1,7 @@
 ;; ns declares a new namespace to be used/required in other files.
 (ns register-user.register-user
   ;; require jetty handler to start the web servlet.
-  (:require [ring.adapter.jetty :refer [run-jetty]]
-            ;; require ring response handler to create web-server responses.
+  (:require ;; require ring response handler to create web-server responses.
             [ring.util.response :refer [response]]
             ;; json parsing library.
             [cheshire.core :as json]))
@@ -68,6 +67,3 @@
         (-> (response (json/generate-string {:error (.getMessage e)}))
             (assoc :status (or status 400))
             (assoc :headers {"Content-Type" "application/json"}))))))
-
-(defn -main []
-  (run-jetty registerUserHttpHandler {:port 3000}))

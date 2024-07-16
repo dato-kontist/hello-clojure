@@ -8,7 +8,7 @@
                  [ring/ring-mock "0.4.0"]
                  [cheshire "5.13.0"]
                  [ring/ring-jetty-adapter "1.9.0"]]
-  :main ^:skip-aot register-user.register-user
+  :main ^:skip-aot main
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
