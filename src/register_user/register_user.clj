@@ -1,12 +1,7 @@
 (ns register-user.register-user
   (:require [ring.util.response :refer [response]]
             [cheshire.core :as json]
-            [register-user.use-case :refer [register-user]]
-            [register-user.adapter.in-memory-user-repository :refer [create-in-memory-repository]]))
-
-(def in-memory-user-db (atom {}))
-
-(def in-memory-repo (create-in-memory-repository in-memory-user-db))
+            [register-user.use-case :refer [register-user]]))
 
 (defn- parse-user
   "Parses the user data from the request body."
@@ -22,10 +17,10 @@
 
 (defn registerUserHttpHandler
   "Handles the HTTP request to register a user."
-  [request]
+  [user-repo request]
   (try
     (let [user (parse-user (slurp (:body request)))
-          createdUser (register-user in-memory-repo user)]
+          createdUser (register-user user-repo user)]
       (-> (response (json/generate-string createdUser))
           (assoc :headers {"Content-Type" "application/json"})))
     (catch Exception e
