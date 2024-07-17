@@ -6,13 +6,24 @@ Learning how to use Clojure.
 
 `lein run`
 
-to run REPL
+Create a user
+```curl
+curl -X POST http://localhost:3000 \
+    -H "Content-Type: application/json" \
+    -d '{
+            "id": "123",
+            "email": "test@example.com",
+            "name": "Test User"
+        }'
+```
+Expected Output
+`{"id":"123","email":"test@example.com","name":"Test User"}`
 
-`lein repl`
+Try the same request again, then the expected output should be (until restarting the server):
+`{"error":"User already registered"}`
 
-## Options
-
-`lein run myargumentvalue`
+### Test
+`lein test`
 
 ### Might be Useful
 
@@ -22,7 +33,7 @@ Install clj-kondo. `brew install borkdude/brew/clj-kondo`
 
 ## License
 
-Copyright © 2024 FIXME
+Copyright © 2024
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
