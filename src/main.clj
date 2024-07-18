@@ -7,5 +7,5 @@
 
 (def in-memory-user-repo (create-in-memory-repository in-memory-user-db))
 
-(defn -main []
-  (run-jetty (create-register-user-http-adapter in-memory-user-repo) {:port 3000}))
+(defn -main [& {:keys [join?] :or {join? true}}]
+  (run-jetty (create-register-user-http-adapter in-memory-user-repo) {:port 3000 :join? join?}))
