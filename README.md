@@ -1,5 +1,13 @@
 # hello-clojure
 
+## Setup
+
+Install [Java](https://sdkman.io/install).
+
+Install [Lein](https://leiningen.org/#install).
+
+Install clj-kondo. `brew install borkdude/brew/clj-kondo`
+
 Learning how to use Clojure.
 
 ## Usage
@@ -7,6 +15,7 @@ Learning how to use Clojure.
 `lein run`
 
 Create a user
+
 ```curl
 curl -X POST http://localhost:3000 \
     -H "Content-Type: application/json" \
@@ -16,6 +25,7 @@ curl -X POST http://localhost:3000 \
             "name": "Test User"
         }'
 ```
+
 Expected Output
 `{"id":"123","email":"test@example.com","name":"Test User"}`
 
@@ -23,13 +33,8 @@ Try the same request again, then the expected output should be (until restarting
 `{"error":"User already registered"}`
 
 ### Test
+
 `lein test`
-
-### Might be Useful
-
-Install Java.
-Install Lein.
-Install clj-kondo. `brew install borkdude/brew/clj-kondo`
 
 ## License
 
