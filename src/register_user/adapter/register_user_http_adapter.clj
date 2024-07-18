@@ -1,32 +1,49 @@
 (ns register-user.adapter.register-user-http-adapter
   (:require [ring.util.response :refer [response]]
             [cheshire.core :as json]
-            [register-user.use-case :refer [register-user]]))
+            [clojure.string :as string]
+            [register-user.register-user-use-case :refer [register-user, USER_ALREADY_REGISTERED_ERROR]]))
+
+(def MISSING_ID_ERROR_MESSAGE
+  "'id' must be a string")
+(def MISSING_EMAIL_ERROR_MESSAGE
+  "'email' must be a string")
+(def MISSING_NAME_ERROR_MESSAGE
+  "'name' must be a string")
+(def INVALID_DATA_ERROR_MESSAGE
+  "Invalid user data.")
+
+(defn- add-content-type [data]
+  (assoc data :headers {"Content-Type" "application/json"}))
 
 (defn- parse-user
-  "Parses the user data from the request body."
   [body]
   (let [user (json/parse-string body true)
         errors (cond-> []
-                 (not (string? (:id user))) (conj "id must be a string")
-                 (not (string? (:email user))) (conj "email must be a string")
-                 (not (string? (:name user))) (conj "name must be a string"))]
+                 (not (string? (:id user))) (conj MISSING_ID_ERROR_MESSAGE)
+                 (not (string? (:email user))) (conj MISSING_EMAIL_ERROR_MESSAGE)
+                 (not (string? (:name user))) (conj MISSING_NAME_ERROR_MESSAGE))]
     (if (empty? errors)
       user
-      (throw (ex-info "Invalid user data" {:status 400 :errors errors})))))
+      (throw (ex-info (str INVALID_DATA_ERROR_MESSAGE (string/join "; " errors)) {:status 400 :errors errors})))))
 
 (defn ->RegisterUserHttpAdapter
   [user-repo] (fn [request]
                 (try
-                  (let [user (parse-user (slurp (:body request)))
-                        createdUser (register-user user-repo user)]
-                    (-> (response (json/generate-string createdUser))
-                        (assoc :headers {"Content-Type" "application/json"})))
-                  (catch Exception e
-                    (let [{:keys [status]} (ex-data e)]
-                      (-> (response (json/generate-string {:error (.getMessage e)}))
-                          (assoc :status (or status 400))
-                          (assoc :headers {"Content-Type" "application/json"})))))))
+                  (let [parsedUser (parse-user (slurp (:body request)))
+                        createdUser (register-user user-repo parsedUser)
+                        httpResponse (-> (response (json/generate-string createdUser))
+                                         (add-content-type))]
+                    httpResponse)
+                  (catch Exception error
+                    (let [httpErrorResponse (if (= USER_ALREADY_REGISTERED_ERROR (.getMessage error))
+                                              (-> (response (json/generate-string {:error (.getMessage error)}))
+                                                  (assoc :status 422)
+                                                  (add-content-type))
+                                              (-> (response (json/generate-string {:error (.getMessage error)}))
+                                                  (assoc :status 400)
+                                                  (add-content-type)))]
+                      httpErrorResponse)))))
 
 (defn create-register-user-http-adapter [user-repo]
   (->RegisterUserHttpAdapter user-repo))
