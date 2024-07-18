@@ -1,4 +1,5 @@
 # hello-clojure
+Learning how to use Clojure.
 
 ## Setup
 
@@ -7,8 +8,6 @@ Install [Java](https://sdkman.io/install).
 Install [Lein](https://leiningen.org/#install).
 
 Install clj-kondo. `brew install borkdude/brew/clj-kondo`
-
-Learning how to use Clojure.
 
 ## Usage
 
