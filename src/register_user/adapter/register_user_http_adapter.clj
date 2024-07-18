@@ -2,7 +2,7 @@
   (:require [ring.util.response :refer [response]]
             [cheshire.core :as json]
             [clojure.string :as string]
-            [register-user.use-case :refer [register-user]]))
+            [register-user.register-user-use-case :refer [register-user, USER_ALREADY_REGISTERED_ERROR]]))
 
 (def MISSING_ID_ERROR_MESSAGE
   "'id' must be a string")
@@ -36,10 +36,13 @@
                                          (add-content-type))]
                     httpResponse)
                   (catch Exception error
-                    (let [{:keys [status]} (ex-data error)
-                          httpErrorResponse (-> (response (json/generate-string {:error (.getMessage error)}))
-                                                (assoc :status (or status 400))
-                                                (add-content-type))]
+                    (let [httpErrorResponse (if (= USER_ALREADY_REGISTERED_ERROR (.getMessage error))
+                                              (-> (response (json/generate-string {:error (.getMessage error)}))
+                                                  (assoc :status 422)
+                                                  (add-content-type))
+                                              (-> (response (json/generate-string {:error (.getMessage error)}))
+                                                  (assoc :status 400)
+                                                  (add-content-type)))]
                       httpErrorResponse)))))
 
 (defn create-register-user-http-adapter [user-repo]
