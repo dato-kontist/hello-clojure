@@ -2,6 +2,8 @@
   (:require [ring.util.response :refer [response]]
             [cheshire.core :as json]
             [clojure.string :as string]
+            [toucan.db :as tdb]
+            [infrastructure.db :as db]
             [register-user.register-user-use-case :refer [register-user, USER_ALREADY_REGISTERED_ERROR]]))
 
 (def MISSING_ID_ERROR_MESSAGE
@@ -45,5 +47,23 @@
                                                   (add-content-type)))]
                       httpErrorResponse)))))
 
+(defn ->RegisterUserHttpDbAdapter
+  [user-repo] (fn [request]
+                (try
+                  (let [parsedUser (parse-user (slurp (:body request)))
+                        createdUser ((tdb/insert! db/User parsedUser))
+                        httpResponse (-> (response (json/generate-string createdUser))
+                                         (add-content-type))]
+                    httpResponse)
+                  (catch Exception error
+                    (let [httpErrorResponse (if (= USER_ALREADY_REGISTERED_ERROR (.getMessage error))
+                                              (-> (response (json/generate-string {:error (.getMessage error)}))
+                                                  (assoc :status 422)
+                                                  (add-content-type))
+                                              (-> (response (json/generate-string {:error (.getMessage error)}))
+                                                  (assoc :status 400)
+                                                  (add-content-type)))]
+                      httpErrorResponse)))))
+
 (defn create-register-user-http-adapter [user-repo]
-  (->RegisterUserHttpAdapter user-repo))
+  (->RegisterUserHttpDbAdapter user-repo))
