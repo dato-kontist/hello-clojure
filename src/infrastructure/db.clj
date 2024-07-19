@@ -20,4 +20,4 @@
           (.close datasource)))
 
 #_{:clj-kondo/ignore [:unresolved-symbol]}
-(defmodel User :users)
+(defmodel User :current.users )

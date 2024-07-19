@@ -1,15 +1,13 @@
 (ns infrastructure.migrations
-  (:require
-   [ragtime.repl :as ragtime]
-   [clojure.edn :as edn]))
+  (:require [ragtime.jdbc :as jdbc]
+            [ragtime.repl :as repl]))
 
 (defn load-config []
-  (edn/read-string (slurp "resources/migrations.edn")))
+  {:datastore  (jdbc/sql-database "jdbc:postgresql://localhost:5432/mydb?user=user&password=password")
+   :migrations (jdbc/load-resources "migrations")})
 
 (defn migrate []
-  (let [config (load-config)]
-    (ragtime/migrate config)))
+  (repl/migrate (load-config)))
 
 (defn rollback []
-  (let [config (load-config)]
-    (ragtime/rollback config)))
+  (repl/rollback (load-config)))
