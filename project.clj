@@ -9,12 +9,7 @@
                  [clj-http "3.12.3"]
                  [org.clojure/data.json "2.4.0"]
                  [cheshire "5.13.0"]
-                 [ring/ring-jetty-adapter "1.9.0"]
-                 [org.postgresql/postgresql "42.2.19"]
-                 [seancorfield/next.jdbc "1.2.659"]
-                 [toucan "1.18.0"]
-                 [mount "0.1.16"]
-                 [ragtime "0.8.0"]]
+                 [ring/ring-jetty-adapter "1.9.0"]]
   :main ^:skip-aot main
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
