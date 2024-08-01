@@ -24,7 +24,7 @@
 
 (deftest test-main
   (testing "Server responds to /register-user"
-    (let [response (client/post "http://localhost:3000/users/in-memory"
+    (let [response (client/post "http://localhost:3000/register-user"
                                 {:body (json/write-str {:id "123" :email "test@example.com" :name "Test User"})
                                  :headers {"Content-Type" "application/json"}})]
       (is (= 200 (:status response))))))
