@@ -1,6 +1,0 @@
-{:datastore  {:classname "org.postgresql.Driver"
-              :subprotocol "postgresql"
-              :subname "//localhost:5432/mydb"
-              :user "user"
-              :password "password"}
- :migrations "resources/migrations"}
