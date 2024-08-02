@@ -35,6 +35,13 @@ Try the same request again, then the expected output should be (until restarting
 
 `lein test`
 
+### Known Issues
+```
+Caused by: clojure.lang.ExceptionInfo: Conflict! Expected 0001-create-schema but 0002-create-users-table was applied. {:reason :ragtime.strategy/migration-conflict, :expected "0001-create-schema", :found "0002-create-users-table"}
+```
+Running local tests + local env can cause migrations conflicts.
+> So far the solution is to delete the PSQL docker container.
+
 ## License
 
 Copyright © 2024

@@ -1,7 +1,7 @@
-(ns register-user.adapter.in-memory-user-repository-test
+(ns infrastructure.repositories.in-memory-user-repository-test
   (:require
    [clojure.test :refer [deftest testing is]]
-   [register-user.adapter.in-memory-user-repository :refer [create-in-memory-repository]]))
+   [infrastructure.repositories.in-memory-user-repository :refer [create-in-memory-repository]]))
 
 (deftest test-in-memory-user-repository
   (let [db (atom {})

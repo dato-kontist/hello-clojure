@@ -1,8 +1,8 @@
-(ns register-user.adapter.register-user-http-adapter
+(ns interfaces.rest.register-user-http-adapter
   (:require [ring.util.response :refer [response]]
             [cheshire.core :as json]
             [clojure.string :as string]
-            [register-user.register-user-use-case :refer [register-user, USER_ALREADY_REGISTERED_ERROR]]))
+            [application.commands.register-user-use-case :refer [register-user, USER_ALREADY_REGISTERED_ERROR]]))
 
 (def MISSING_ID_ERROR_MESSAGE
   "'id' must be a string")

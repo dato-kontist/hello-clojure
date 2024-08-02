@@ -1,7 +1,7 @@
-(ns register-user.register-user-use-case-test
+(ns application.commands.register-user-use-case-test
   (:require [clojure.test :refer [deftest testing is]]
             [domain.ports :refer [UserRepositoryPort]]
-            [register-user.register-user-use-case :refer [register-user]]))
+            [application.commands.register-user-use-case :refer [register-user]]))
 
 (deftest register-user-tests
   (testing "User already registered"

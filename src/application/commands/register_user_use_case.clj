@@ -1,4 +1,4 @@
-(ns register-user.register-user-use-case)
+(ns application.commands.register-user-use-case)
 
 (def USER_ALREADY_REGISTERED_ERROR
   "User already registered. ")

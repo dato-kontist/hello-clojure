@@ -1,4 +1,4 @@
-(ns register-user.adapter.in-memory-user-repository
+(ns infrastructure.repositories.in-memory-user-repository
   (:require
    [domain.ports :refer [UserRepositoryPort]]))
 
