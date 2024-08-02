@@ -1,16 +1,18 @@
 (ns main
-  (:require [interfaces.rest.register-user-http-adapter :refer [create-register-user-http-adapter]]
-            [ring.adapter.jetty :refer [run-jetty]]
-            [mount.core :as mount]
-            [clojure.tools.logging :as log]
-            [infrastructure.db :refer [db-connection]]
-            [infrastructure.docker :refer [docker-postgres]]
-            [infrastructure.repositories.in-memory-user-repository :refer [create-in-memory-repository]]
-            [infrastructure.repositories.psql-user-repository :refer [create-in-psql-user-repository]]
-            [ring.middleware.params :as params]
-            [ring.middleware.keyword-params :as keyword-params]
-            [ring.middleware.resource :as resource]
-            [ring.util.response :as response]))
+  (:require
+   [interfaces.rest.register-user-http-adapter :refer [create-register-user-http-adapter]]
+   [interfaces.rest.find-user-by-email-http-adapter :refer [create-find-user-by-email-http-adapter]]
+   [ring.adapter.jetty :refer [run-jetty]]
+   [mount.core :as mount]
+   [clojure.tools.logging :as log]
+   [infrastructure.db :refer [db-connection]]
+   [infrastructure.docker :refer [docker-postgres]]
+   [infrastructure.repositories.in-memory-user-repository :refer [create-in-memory-repository]]
+   [infrastructure.repositories.psql-user-repository :refer [create-in-psql-user-repository]]
+   [ring.middleware.params :as params]
+   [ring.middleware.keyword-params :as keyword-params]
+   [ring.middleware.resource :as resource]
+   [ring.util.response :as response]))
 
 (def in-memory-user-db (atom {}))
 
@@ -24,6 +26,8 @@
           (case [uri method]
             ["/users/in-memory" :post] ((create-register-user-http-adapter in-memory-user-repo) request)
             ["/users/psql" :post] ((create-register-user-http-adapter psql-user-repo) request)
+            ["/users/in-memory" :get] ((create-find-user-by-email-http-adapter in-memory-user-repo) request)
+            ["/users/psql" :get] ((create-find-user-by-email-http-adapter psql-user-repo) request)
             (response/not-found "Not Found"))))
       (params/wrap-params)
       (keyword-params/wrap-keyword-params)

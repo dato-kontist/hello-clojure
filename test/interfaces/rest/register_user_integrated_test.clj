@@ -14,7 +14,7 @@
   ((create-register-user-http-adapter (create-in-memory-repository (atom {}))) request))
 
 (defn- create-request [user]
-  (-> (mock/request :post "/")
+  (-> (mock/request :post "/users/in-memory")
       (mock/content-type "application/json")
       (mock/body (json/generate-string user))))
 
