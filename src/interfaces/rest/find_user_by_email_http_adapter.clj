@@ -1,7 +1,6 @@
 (ns interfaces.rest.find-user-by-email-http-adapter
   (:require [ring.util.response :refer [response]]
             [cheshire.core :as json]
-            [clojure.string :as string]
             [application.queries.find-user-by-email-use-case :refer [find-user-by-email USER_NOT_FOUND]]))
 
 (defn- add-content-type [resp]
