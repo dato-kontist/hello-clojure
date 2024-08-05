@@ -1,7 +1,7 @@
-(ns register-user.adapter.psql-user-repository-test
+(ns infrastructure.repositories.psql-user-repository-test
   (:require
    [clojure.test :refer [deftest is]]
-   [register-user.adapter.psql-user-repository :refer [create-in-psql-user-repository]]
+   [infrastructure.repositories.psql-user-repository :refer [create-in-psql-user-repository]]
    [toucan.db :as db]
    [infrastructure.db :as models]))
 

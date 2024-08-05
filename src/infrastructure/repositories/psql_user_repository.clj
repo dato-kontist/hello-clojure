@@ -1,4 +1,4 @@
-(ns register-user.adapter.psql-user-repository
+(ns infrastructure.repositories.psql-user-repository
   (:require
    [infrastructure.db :as models]
    [toucan.db :as db]

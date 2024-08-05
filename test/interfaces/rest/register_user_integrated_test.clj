@@ -1,10 +1,10 @@
-(ns register-user.adapter.register-user-integrated-test
+(ns interfaces.rest.register-user-integrated-test
   (:require [cheshire.core :as json]
             [clojure.test :refer [deftest is testing]]
             [clojure.string :refer [includes?]]
-            [register-user.adapter.register-user-http-adapter :refer [create-register-user-http-adapter, INVALID_DATA_ERROR_MESSAGE, MISSING_EMAIL_ERROR_MESSAGE, MISSING_ID_ERROR_MESSAGE, MISSING_NAME_ERROR_MESSAGE]]
-            [register-user.adapter.in-memory-user-repository :refer [create-in-memory-repository]]
-            [register-user.register-user-use-case :refer [USER_ALREADY_REGISTERED_ERROR]]
+            [interfaces.rest.register-user-http-adapter :refer [create-register-user-http-adapter, INVALID_DATA_ERROR_MESSAGE, MISSING_EMAIL_ERROR_MESSAGE, MISSING_ID_ERROR_MESSAGE, MISSING_NAME_ERROR_MESSAGE]]
+            [infrastructure.repositories.in-memory-user-repository :refer [create-in-memory-repository]]
+            [application.commands.register-user-use-case :refer [USER_ALREADY_REGISTERED_ERROR]]
             [ring.mock.request :as mock]))
 
 (def ^:private VALID_USER
@@ -14,7 +14,7 @@
   ((create-register-user-http-adapter (create-in-memory-repository (atom {}))) request))
 
 (defn- create-request [user]
-  (-> (mock/request :post "/")
+  (-> (mock/request :post "/users/in-memory")
       (mock/content-type "application/json")
       (mock/body (json/generate-string user))))
 
