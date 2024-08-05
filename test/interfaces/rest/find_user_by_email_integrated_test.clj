@@ -10,11 +10,11 @@
   {:id "123", :email "test@example.com", :name "Test User"})
 
 (defn- send-request [email]
-  (let [user-repo (create-in-memory-repository (atom [VALID_USER]))
+  (let [user-repo (create-in-memory-repository (atom {(:email VALID_USER) VALID_USER}))
         adapter (create-find-user-by-email-http-adapter user-repo)
         request (-> (mock/request :get (str "/users/in-memory?email=" email))
                     (mock/content-type "application/json"))]
-    (adapter request)))
+    (adapter (assoc request :query-params {"email" email}))))
 
 (deftest test-find-user-by-email-handler
   (testing "Find existing user by email"
@@ -28,6 +28,6 @@
         (is (string/includes? (:body response) "User not found"))))
 
     (testing "Invalid email format (bad request)"
-      (let [response (send-request "invalid-email")]
+      (let [response (send-request 1234567890)]
         (is (= 400 (:status response)))
         (is (string/includes? (:body response) "'email' must be a string"))))))
