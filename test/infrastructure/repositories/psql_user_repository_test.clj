@@ -56,5 +56,5 @@
 (deftest test-delete
   (with-redefs [db/delete! mock-delete]
     (let [repo (create-in-psql-user-repository nil)
-          delete-count (.delete repo {:id 1})] ; Use repo's method to delete by ID
+          delete-count (.delete repo 1)] ; Corrected to pass just the ID, not a map
       (is (= delete-count 1))))) ; Check if one record was reported as deleted

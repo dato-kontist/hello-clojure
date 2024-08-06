@@ -13,7 +13,7 @@
   (create [_ user]
     (db/insert! models/User user))
   (delete [_ id]
-    (db/delete! models/User id)))
+    (db/delete! models/User {:id id})))
 
 (defn create-in-psql-user-repository [db]
   (->PSqlUserRepository db))
