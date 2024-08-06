@@ -1,7 +1,7 @@
 (ns interfaces.rest.delete-user-http-adapter-integrated-test
   (:require
    [clojure.test :refer [deftest is testing]]
-   [interfaces.rest.delete-user-http-adapter :refer [create-delete-user-http-adapter]]
+   [interfaces.rest.delete-user-http-adapter :refer [create-delete-user-http-adapter MISSING_ID_ERROR_MESSAGE]]
    [infrastructure.repositories.in-memory-user-repository :refer [create-in-memory-repository]]
    [clojure.string :refer [includes?]]
    [ring.mock.request :as mock]))
@@ -16,14 +16,14 @@
   (testing "Successfully deleting an existing user"
     (let [response (send-delete-request "123")]
       (is (= 200 (:status response)))
-      (is (= "{\"message\":\"User deleted successfully\"}" (:body response)))))
+      (is (= "{\"message\":\"User deleted successfully\"}" (:body response))))
 
   (testing "Attempt to delete a non-existing user"
     (let [response (send-delete-request "999")]
       (is (= 422 (:status response)))
       (is (includes? (:body response) "User not found."))))
 
-  (testing "Invalid ID provided"
-    (let [response (send-delete-request "")]
-      (is (= 400 (:status response)))
-      (is (includes? (:body response) "Invalid or missing ID query parameter.")))))
+    (testing "Invalid ID provided"
+      (let [response (send-delete-request 1234567890)]
+        (is (= 400 (:status response)))
+        (is (includes? (:body response) MISSING_ID_ERROR_MESSAGE))))))

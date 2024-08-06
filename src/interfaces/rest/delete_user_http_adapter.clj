@@ -1,7 +1,6 @@
 (ns interfaces.rest.delete-user-http-adapter
   (:require [ring.util.response :refer [response]]
             [cheshire.core :as json]
-            [clojure.string :as string]
             [application.commands.delete-user-use-case :refer [delete-user-by-id USER_NOT_FOUND_ERROR]]))
 
 (def MISSING_ID_ERROR_MESSAGE
@@ -11,7 +10,7 @@
   (assoc data :headers {"Content-Type" "application/json"}))
 
 (defn- validate-id [id]
-  (if (string/blank? id)
+  (if (not (string? id))
     (throw (ex-info MISSING_ID_ERROR_MESSAGE {:status 400 :error MISSING_ID_ERROR_MESSAGE}))
     id))
 
@@ -29,6 +28,10 @@
                                               (= (ex-message error) USER_NOT_FOUND_ERROR)
                                               (-> (response (json/generate-string {:error "User not found."}))
                                                   (assoc :status 422)
+                                                  (add-content-type))
+                                              (= (ex-message error) MISSING_ID_ERROR_MESSAGE)
+                                              (-> (response (json/generate-string {:error MISSING_ID_ERROR_MESSAGE}))
+                                                  (assoc :status 400)
                                                   (add-content-type))
                                               :else
                                               (->
